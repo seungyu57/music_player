@@ -1,94 +1,229 @@
-// 노래를 추가하거나 수정하려면 아래 배열의 title과 file을 바꾸면 됩니다.
-// file 경로는 ./music/파일명.flac 또는 ./music/파일명.mp3 형태를 사용합니다.
+// songs 배열에서 제목, 아티스트, 파일 경로, 커버 이미지를 관리합니다.
 const songs = [
   {
     title: '트랙 1',
-    file: './music/01 트랙 1.flac'
+    artist: 'Unknown Artist',
+    file: './music/01 트랙 1.flac',
+    cover: ''
   },
   {
     title: '트랙 2',
-    file: './music/02 트랙 2.flac'
+    artist: 'Unknown Artist',
+    file: './music/02 트랙 2.flac',
+    cover: ''
   },
   {
     title: '트랙 3',
-    file: './music/03 트랙 3.flac'
+    artist: 'Unknown Artist',
+    file: './music/03 트랙 3.flac',
+    cover: ''
   },
   {
     title: '트랙 4',
-    file: './music/04 트랙 4.flac'
+    artist: 'Unknown Artist',
+    file: './music/04 트랙 4.flac',
+    cover: ''
   },
   {
     title: '트랙 5',
-    file: './music/05 트랙 5.flac'
+    artist: 'Unknown Artist',
+    file: './music/05 트랙 5.flac',
+    cover: ''
   },
   {
     title: '트랙 6',
-    file: './music/06 트랙 6.flac'
+    artist: 'Unknown Artist',
+    file: './music/06 트랙 6.flac',
+    cover: ''
   },
   {
     title: '트랙 7',
-    file: './music/07 트랙 7.flac'
+    artist: 'Unknown Artist',
+    file: './music/07 트랙 7.flac',
+    cover: ''
   },
   {
     title: '트랙 8',
-    file: './music/08 트랙 8.flac'
+    artist: 'Unknown Artist',
+    file: './music/08 트랙 8.flac',
+    cover: ''
   },
   {
     title: '트랙 9',
-    file: './music/09 트랙 9.flac'
+    artist: 'Unknown Artist',
+    file: './music/09 트랙 9.flac',
+    cover: ''
   },
   {
     title: '트랙 10',
-    file: './music/10 트랙 10.flac'
+    artist: 'Unknown Artist',
+    file: './music/10 트랙 10.flac',
+    cover: ''
   }
 ];
 
-const songList = document.getElementById('song-list');
-const currentSong = document.getElementById('current-song');
-const audioPlayers = [];
+const audio = new Audio();
+const coverArt = document.getElementById('cover-art');
+const trackTitle = document.getElementById('track-title');
+const trackArtist = document.getElementById('track-artist');
+const playButton = document.getElementById('play-button');
+const prevButton = document.getElementById('prev-button');
+const nextButton = document.getElementById('next-button');
+const progressBar = document.getElementById('progress-bar');
+const currentTimeText = document.getElementById('current-time');
+const durationText = document.getElementById('duration');
+const volumeSlider = document.getElementById('volume-slider');
+const playlist = document.getElementById('playlist');
 
-function stopOtherSongs(currentAudio) {
-  audioPlayers.forEach((audio) => {
-    if (audio !== currentAudio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
+let currentIndex = 0;
+let isSeeking = false;
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds)) {
+    return '0:00';
+  }
+
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, '0');
+  return `${minutes}:${remainingSeconds}`;
+}
+
+function updateCover(song) {
+  coverArt.classList.toggle('has-cover', Boolean(song.cover));
+  coverArt.style.backgroundImage = song.cover
+    ? `url("${song.cover}")`
+    : '';
+}
+
+function updatePlaylistActiveState() {
+  document.querySelectorAll('.playlist-item').forEach((item, index) => {
+    item.classList.toggle('active', index === currentIndex);
   });
 }
 
-function renderSongs() {
-  if (songs.length === 0) {
-    songList.innerHTML = '<p class="empty-message">songs 배열에 노래를 추가해 주세요.</p>';
+function loadSong(index, shouldPlay = false) {
+  currentIndex = (index + songs.length) % songs.length;
+  const song = songs[currentIndex];
+
+  audio.src = song.file;
+  trackTitle.textContent = song.title;
+  trackArtist.textContent = song.artist;
+  progressBar.value = 0;
+  currentTimeText.textContent = '0:00';
+  durationText.textContent = '0:00';
+  updateCover(song);
+  updatePlaylistActiveState();
+
+  if (shouldPlay) {
+    audio.play();
+  }
+}
+
+function playSong() {
+  audio.play();
+}
+
+function pauseSong() {
+  audio.pause();
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    playSong();
     return;
   }
 
-  songs.forEach((song) => {
-    const songItem = document.createElement('article');
-    songItem.className = 'song-item';
+  pauseSong();
+}
 
-    const title = document.createElement('p');
-    title.className = 'song-title';
-    title.textContent = song.title;
+function playPreviousSong() {
+  loadSong(currentIndex - 1, true);
+}
 
-    const audio = document.createElement('audio');
-    audio.controls = true;
-    audio.src = song.file;
-    audio.preload = 'metadata';
+function playNextSong() {
+  loadSong(currentIndex + 1, true);
+}
 
-    // 한 곡이 재생되면 다른 곡은 자동으로 멈춥니다.
-    audio.addEventListener('play', () => {
-      stopOtherSongs(audio);
-      currentSong.textContent = song.title;
+function updateProgress() {
+  if (isSeeking || !audio.duration) {
+    return;
+  }
+
+  progressBar.value = (audio.currentTime / audio.duration) * 100;
+  currentTimeText.textContent = formatTime(audio.currentTime);
+}
+
+function seekToProgress() {
+  if (!audio.duration) {
+    return;
+  }
+
+  audio.currentTime = (progressBar.value / 100) * audio.duration;
+  currentTimeText.textContent = formatTime(audio.currentTime);
+}
+
+function renderPlaylist() {
+  if (songs.length === 0) {
+    playlist.innerHTML = '<p class="empty-message">songs 배열에 노래를 추가해 주세요.</p>';
+    return;
+  }
+
+  songs.forEach((song, index) => {
+    const item = document.createElement('button');
+    item.className = 'playlist-item';
+    item.type = 'button';
+
+    item.innerHTML = `
+      <span class="track-number">${index + 1}</span>
+      <span>
+        <span class="playlist-title">${song.title}</span>
+        <span class="playlist-artist">${song.artist}</span>
+      </span>
+      <span class="track-length">--:--</span>
+    `;
+
+    item.addEventListener('click', () => {
+      loadSong(index, true);
     });
 
-    audio.addEventListener('ended', () => {
-      currentSong.textContent = '아직 재생 중인 곡이 없습니다.';
-    });
-
-    audioPlayers.push(audio);
-    songItem.append(title, audio);
-    songList.appendChild(songItem);
+    playlist.appendChild(item);
   });
 }
 
-renderSongs();
+playButton.addEventListener('click', togglePlay);
+prevButton.addEventListener('click', playPreviousSong);
+nextButton.addEventListener('click', playNextSong);
+
+audio.addEventListener('play', () => {
+  playButton.textContent = '⏸';
+  playButton.setAttribute('aria-label', '일시정지');
+});
+
+audio.addEventListener('pause', () => {
+  playButton.textContent = '▶';
+  playButton.setAttribute('aria-label', '재생');
+});
+
+audio.addEventListener('loadedmetadata', () => {
+  durationText.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('timeupdate', updateProgress);
+audio.addEventListener('ended', playNextSong);
+
+progressBar.addEventListener('input', () => {
+  isSeeking = true;
+});
+
+progressBar.addEventListener('change', () => {
+  seekToProgress();
+  isSeeking = false;
+});
+
+volumeSlider.addEventListener('input', () => {
+  audio.volume = volumeSlider.value;
+});
+
+audio.volume = volumeSlider.value;
+renderPlaylist();
+loadSong(0);

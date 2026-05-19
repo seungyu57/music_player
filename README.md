@@ -1,6 +1,6 @@
 # My Music Player
 
-GitHub 저장소에 올린 오디오 파일을 브라우저에서 간단히 재생할 수 있는 개인용 정적 음악 플레이어입니다. 백엔드 없이 HTML, CSS, JavaScript만 사용하므로 GitHub Pages 또는 로컬 브라우저에서 바로 열 수 있습니다.
+GitHub Pages에서 바로 배포할 수 있는 개인용 정적 음악 플레이어입니다. 백엔드 없이 HTML, CSS, JavaScript만 사용하며, `music` 폴더에 넣은 오디오 파일을 앱 형태의 플레이어 UI로 재생합니다.
 
 ## 폴더 구조
 
@@ -18,23 +18,54 @@ my-music-player/
 └── README.md
 ```
 
-현재 `music` 폴더에는 FLAC 트랙 파일들이 들어 있습니다. 다른 노래를 사용하려면 `music` 폴더의 파일을 바꾸고 `js/player.js`의 `songs` 배열을 수정해 주세요.
-
 ## 노래 추가 방법
 
 1. `music` 폴더에 mp3 또는 flac 파일을 넣습니다.
-2. `js/player.js` 파일의 `songs` 배열을 수정합니다.
+2. `js/player.js` 파일의 `songs` 배열에 곡 정보를 추가합니다.
 
 ```javascript
 const songs = [
   {
-    title: '내가 표시하고 싶은 노래 제목',
-    file: './music/파일명.mp3'
+    title: "Song One",
+    artist: "Unknown Artist",
+    file: "./music/song1.mp3",
+    cover: ""
+  },
+  {
+    title: "Song Two",
+    artist: "Unknown Artist",
+    file: "./music/song2.mp3",
+    cover: ""
   }
 ];
 ```
 
-파일 경로는 `./music/파일명.mp3` 또는 `./music/파일명.flac` 형태로 작성합니다. 파일명은 대소문자와 공백까지 실제 파일명과 같아야 합니다.
+`file` 경로는 `./music/파일명.mp3` 또는 `./music/파일명.flac`처럼 작성합니다. 파일명은 대소문자, 공백, 확장자까지 실제 파일명과 같아야 합니다.
+
+## 커버 이미지 추가 방법
+
+커버 이미지를 사용하려면 이미지 파일을 프로젝트 안에 넣고 `cover` 값에 경로를 작성합니다.
+
+예시:
+
+```text
+my-music-player/
+├── covers/
+│   └── album-cover.jpg
+└── js/
+    └── player.js
+```
+
+```javascript
+{
+  title: "Song One",
+  artist: "Unknown Artist",
+  file: "./music/song1.mp3",
+  cover: "./covers/album-cover.jpg"
+}
+```
+
+`cover` 값이 빈 문자열이면 기본 그라데이션 앨범 커버가 표시됩니다.
 
 ## 로컬에서 실행하기
 
@@ -72,4 +103,5 @@ git push -u origin main
 - 큰 오디오 파일은 GitHub 저장소에 올리기 적합하지 않습니다.
 - 본인이 직접 만든 파일 또는 사용 권한이 있는 음악 파일만 사용해야 합니다.
 - 공개 저장소에 올리면 오디오 파일도 공개될 수 있습니다.
+- 브라우저마다 FLAC 지원 범위가 다를 수 있습니다. 모바일 호환성을 높이려면 mp3 사용을 권장합니다.
 - GitHub Pages는 정적 사이트용이므로 서버 기능이 필요한 작업에는 적합하지 않습니다.
