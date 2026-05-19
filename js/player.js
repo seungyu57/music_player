@@ -2,63 +2,63 @@
 const songs = [
   {
     title: '트랙 1',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/01 트랙 1.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 2',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/02 트랙 2.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 3',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/03 트랙 3.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 4',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/04 트랙 4.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 5',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/05 트랙 5.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 6',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/06 트랙 6.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 7',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/07 트랙 7.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 8',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/08 트랙 8.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
     title: '트랙 9',
-    artist: 'Unknown Artist',
+    artist: '검정치마',
     file: './music/09 트랙 9.flac',
-    cover: ''
+    cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 10',
-    artist: 'Unknown Artist',
-    file: './music/10 트랙 10.flac',
-    cover: ''
+    title: '걱정하지마',
+    artist: '검정치마',
+    file: './music/걱정하지마.flac',
+    cover: './covers/team-baby.webp'
   }
 ];
 

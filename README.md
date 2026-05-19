@@ -13,10 +13,13 @@ my-music-player/
 │   └── style.css
 ├── js/
 │   └── player.js
+├── covers/
+│   └── team-baby.webp
 ├── music/
 │   ├── 01 트랙 1.flac
 │   ├── 02 트랙 2.flac
-│   └── ...
+│   ├── ...
+│   └── 걱정하지마.flac
 └── README.md
 ```
 
@@ -29,15 +32,15 @@ my-music-player/
 const songs = [
   {
     title: "Song One",
-    artist: "Unknown Artist",
+    artist: "검정치마",
     file: "./music/song1.mp3",
-    cover: ""
+    cover: "./covers/team-baby.webp"
   },
   {
     title: "Song Two",
-    artist: "Unknown Artist",
+    artist: "검정치마",
     file: "./music/song2.mp3",
-    cover: ""
+    cover: "./covers/team-baby.webp"
   }
 ];
 ```
@@ -61,7 +64,7 @@ my-music-player/
 ```javascript
 {
   title: "Song One",
-  artist: "Unknown Artist",
+  artist: "검정치마",
   file: "./music/song1.mp3",
   cover: "./covers/album-cover.jpg"
 }
