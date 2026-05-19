@@ -4,51 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Music Player</title>
-  <link rel="stylesheet" href="./css/style.css?v=2">
+  <link rel="stylesheet" href="./css/style.css?v=3">
 </head>
 <body>
-  <main class="app-shell">
-    <section class="player-card" aria-label="음악 플레이어">
-      <div class="player-main">
-        <div id="cover-art" class="cover-art" aria-label="앨범 커버"></div>
-
-        <div class="track-info">
-          <p class="eyebrow">Now Playing</p>
-          <h1 id="track-title">My Music Player</h1>
-          <p id="track-artist">Unknown Artist</p>
+  <main class="music-app">
+    <section class="app-card" aria-label="음악 플레이어">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Private Library</p>
+          <h1>My Music Player</h1>
         </div>
+        <div class="status-pill">GitHub Pages Ready</div>
+      </header>
 
-        <div class="controls" aria-label="재생 컨트롤">
-          <button id="prev-button" class="control-button small-button" type="button" aria-label="이전 곡">⏮</button>
-          <button id="play-button" class="control-button play-button" type="button" aria-label="재생">▶</button>
-          <button id="next-button" class="control-button small-button" type="button" aria-label="다음 곡">⏭</button>
-        </div>
-
-        <div class="progress-area">
-          <div class="time-row">
-            <span id="current-time">0:00</span>
-            <span id="duration">0:00</span>
+      <section class="player-layout">
+        <div class="now-playing-panel">
+          <div id="cover-art" class="cover-art" aria-label="앨범 커버">
+            <div class="cover-disc"></div>
           </div>
-          <input id="progress-bar" class="progress-bar" type="range" min="0" max="100" value="0" aria-label="재생 위치">
+
+          <div class="track-info">
+            <p class="eyebrow">Now Playing</p>
+            <h2 id="track-title">My Music Player</h2>
+            <p id="track-artist">Unknown Artist</p>
+          </div>
+
+          <div class="progress-area">
+            <div class="time-row">
+              <span id="current-time">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+            <input id="progress-bar" class="progress-bar" type="range" min="0" max="100" value="0" aria-label="재생 위치">
+          </div>
+
+          <div class="controls" aria-label="재생 컨트롤">
+            <button id="prev-button" class="icon-button" type="button" aria-label="이전 곡">⏮</button>
+            <button id="play-button" class="play-button" type="button" aria-label="재생">▶</button>
+            <button id="next-button" class="icon-button" type="button" aria-label="다음 곡">⏭</button>
+          </div>
+
+          <label class="volume-control" for="volume-slider">
+            <span>Volume</span>
+            <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.8">
+          </label>
         </div>
 
-        <label class="volume-control" for="volume-slider">
-          <span>Volume</span>
-          <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.8">
-        </label>
-      </div>
-
-      <aside class="playlist-panel" aria-labelledby="playlist-title">
-        <div class="playlist-header">
-          <p class="eyebrow">Playlist</p>
-          <h2 id="playlist-title">내 음악</h2>
-        </div>
-        <!-- player.js가 songs 배열을 기반으로 플레이리스트를 자동 생성합니다. -->
-        <div id="playlist" class="playlist"></div>
-      </aside>
+        <aside class="playlist-panel" aria-labelledby="playlist-title">
+          <div class="playlist-header">
+            <div>
+              <p class="eyebrow">Queue</p>
+              <h2 id="playlist-title">오늘의 플레이리스트</h2>
+            </div>
+            <span id="song-count" class="song-count">0 songs</span>
+          </div>
+          <!-- player.js가 songs 배열을 기반으로 플레이리스트를 자동 생성합니다. -->
+          <div id="playlist" class="playlist"></div>
+        </aside>
+      </section>
     </section>
   </main>
 
-  <script src="./js/player.js?v=2"></script>
+  <script src="./js/player.js?v=3"></script>
 </body>
 </html>

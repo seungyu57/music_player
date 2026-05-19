@@ -74,6 +74,7 @@ const currentTimeText = document.getElementById('current-time');
 const durationText = document.getElementById('duration');
 const volumeSlider = document.getElementById('volume-slider');
 const playlist = document.getElementById('playlist');
+const songCount = document.getElementById('song-count');
 
 let currentIndex = 0;
 let isSeeking = false;
@@ -165,8 +166,11 @@ function seekToProgress() {
 function renderPlaylist() {
   if (songs.length === 0) {
     playlist.innerHTML = '<p class="empty-message">songs 배열에 노래를 추가해 주세요.</p>';
+    songCount.textContent = '0 songs';
     return;
   }
+
+  songCount.textContent = `${songs.length} songs`;
 
   songs.forEach((song, index) => {
     const item = document.createElement('button');
