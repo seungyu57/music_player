@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Music Player</title>
-  <link rel="stylesheet" href="./css/style.css?v=4">
+  <link rel="stylesheet" href="./css/style.css?v=5">
 </head>
 <body>
   <main class="music-app">
@@ -43,6 +43,8 @@
             <button id="next-button" class="icon-button" type="button" aria-label="다음 곡">⏭</button>
           </div>
 
+          <button id="repeat-button" class="repeat-button" type="button" aria-label="반복 모드 변경">반복 끔</button>
+
           <label class="volume-control" for="volume-slider">
             <span>Volume</span>
             <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.8">
@@ -64,6 +66,6 @@
     </section>
   </main>
 
-  <script src="./js/player.js?v=4"></script>
+  <script src="./js/player.js?v=5"></script>
 </body>
 </html>

@@ -75,6 +75,7 @@ const trackArtist = document.getElementById('track-artist');
 const playButton = document.getElementById('play-button');
 const prevButton = document.getElementById('prev-button');
 const nextButton = document.getElementById('next-button');
+const repeatButton = document.getElementById('repeat-button');
 const progressBar = document.getElementById('progress-bar');
 const currentTimeText = document.getElementById('current-time');
 const durationText = document.getElementById('duration');
@@ -84,6 +85,13 @@ const songCount = document.getElementById('song-count');
 
 let currentIndex = 0;
 let isSeeking = false;
+let repeatMode = 'off';
+
+const repeatLabels = {
+  off: '반복 끔',
+  all: '전체 반복',
+  one: '한 곡 반복'
+};
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds)) {
@@ -151,6 +159,45 @@ function playNextSong() {
   loadSong(currentIndex + 1, true);
 }
 
+function updateRepeatButton() {
+  repeatButton.textContent = repeatLabels[repeatMode];
+  repeatButton.classList.toggle('active', repeatMode !== 'off');
+  repeatButton.setAttribute('aria-label', `반복 모드: ${repeatLabels[repeatMode]}`);
+}
+
+function changeRepeatMode() {
+  if (repeatMode === 'off') {
+    repeatMode = 'all';
+  } else if (repeatMode === 'all') {
+    repeatMode = 'one';
+  } else {
+    repeatMode = 'off';
+  }
+
+  updateRepeatButton();
+}
+
+function handleSongEnded() {
+  if (repeatMode === 'one') {
+    audio.currentTime = 0;
+    playSong();
+    return;
+  }
+
+  if (currentIndex < songs.length - 1) {
+    playNextSong();
+    return;
+  }
+
+  if (repeatMode === 'all') {
+    loadSong(0, true);
+    return;
+  }
+
+  playButton.textContent = '▶';
+  playButton.setAttribute('aria-label', '재생');
+}
+
 function updateProgress() {
   if (isSeeking || !audio.duration) {
     return;
@@ -203,6 +250,7 @@ function renderPlaylist() {
 playButton.addEventListener('click', togglePlay);
 prevButton.addEventListener('click', playPreviousSong);
 nextButton.addEventListener('click', playNextSong);
+repeatButton.addEventListener('click', changeRepeatMode);
 
 audio.addEventListener('play', () => {
   playButton.textContent = '⏸';
@@ -219,7 +267,7 @@ audio.addEventListener('loadedmetadata', () => {
 });
 
 audio.addEventListener('timeupdate', updateProgress);
-audio.addEventListener('ended', playNextSong);
+audio.addEventListener('ended', handleSongEnded);
 
 progressBar.addEventListener('input', () => {
   isSeeking = true;
@@ -235,5 +283,6 @@ volumeSlider.addEventListener('input', () => {
 });
 
 audio.volume = volumeSlider.value;
+updateRepeatButton();
 renderPlaylist();
 loadSong(0);

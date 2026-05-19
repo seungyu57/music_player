@@ -229,6 +229,23 @@ h1 {
   transform: translateY(-2px);
 }
 
+.repeat-button {
+  justify-self: center;
+  min-height: 38px;
+  padding: 0 18px;
+  border: 1px solid rgba(87, 230, 181, 0.34);
+  border-radius: 999px;
+  color: #c9f8e9;
+  background: rgba(87, 230, 181, 0.1);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.repeat-button.active {
+  color: #07100f;
+  background: var(--accent);
+}
+
 .volume-control {
   display: grid;
   gap: 10px;
