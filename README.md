@@ -2,6 +2,8 @@
 
 GitHub Pages에서 바로 배포할 수 있는 개인용 정적 음악 플레이어입니다. 백엔드 없이 HTML, CSS, JavaScript만 사용하며, `music` 폴더에 넣은 오디오 파일을 앱 형태의 플레이어 UI로 재생합니다.
 
+배포 주소: <https://seungyu57.github.io/music_player/>
+
 ## 폴더 구조
 
 ```text
