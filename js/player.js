@@ -1,57 +1,63 @@
 // songs 배열에서 제목, 아티스트, 파일 경로, 커버 이미지를 관리합니다.
 const songs = [
   {
-    title: '트랙 1',
+    title: '난 아니에요',
     artist: '검정치마',
     file: './music/01 트랙 1.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 2',
+    title: 'Big Love',
     artist: '검정치마',
     file: './music/02 트랙 2.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 3',
+    title: 'Diamond',
     artist: '검정치마',
     file: './music/03 트랙 3.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 4',
+    title: 'Love is All',
     artist: '검정치마',
     file: './music/04 트랙 4.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 5',
+    title: '내 고향 서울엔',
     artist: '검정치마',
     file: './music/05 트랙 5.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 6',
+    title: '폭죽과 풍선들',
     artist: '검정치마',
     file: './music/06 트랙 6.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 7',
+    title: '한시 오분 (1:05)',
     artist: '검정치마',
     file: './music/07 트랙 7.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 8',
+    title: '나랑 아니면',
     artist: '검정치마',
     file: './music/08 트랙 8.flac',
     cover: './covers/team-baby.webp'
   },
   {
-    title: '트랙 9',
+    title: '혜야',
     artist: '검정치마',
     file: './music/09 트랙 9.flac',
+    cover: './covers/team-baby.webp'
+  },
+  {
+    title: 'EVERYTHING',
+    artist: '검정치마',
+    file: './music/EVERYTHING.flac',
     cover: './covers/team-baby.webp'
   },
   {
