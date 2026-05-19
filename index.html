@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Music Player</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <main class="player-card">
+    <header class="player-header">
+      <p class="eyebrow">Personal Playlist</p>
+      <h1>My Music Player</h1>
+      <p class="description">music 폴더에 넣은 mp3 파일을 간단히 재생하는 정적 음악 플레이어입니다.</p>
+    </header>
+
+    <section class="now-playing" aria-live="polite">
+      <span class="now-label">현재 재생 중</span>
+      <strong id="current-song">아직 재생 중인 곡이 없습니다.</strong>
+    </section>
+
+    <section class="playlist-section" aria-labelledby="playlist-title">
+      <h2 id="playlist-title">노래 목록</h2>
+      <!-- player.js가 songs 배열을 읽어서 아래 목록을 자동으로 채웁니다. -->
+      <div id="song-list" class="song-list"></div>
+    </section>
+  </main>
+
+  <script src="./js/player.js"></script>
+</body>
+</html>
