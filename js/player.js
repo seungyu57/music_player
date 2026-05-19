@@ -1,13 +1,45 @@
 // 노래를 추가하거나 수정하려면 아래 배열의 title과 file을 바꾸면 됩니다.
-// file 경로는 ./music/파일명.mp3 형태를 사용합니다.
+// file 경로는 ./music/파일명.flac 또는 ./music/파일명.mp3 형태를 사용합니다.
 const songs = [
   {
-    title: 'Sample Song 1',
-    file: './music/sample1.mp3'
+    title: '트랙 1',
+    file: './music/01 트랙 1.flac'
   },
   {
-    title: 'Sample Song 2',
-    file: './music/sample2.mp3'
+    title: '트랙 2',
+    file: './music/02 트랙 2.flac'
+  },
+  {
+    title: '트랙 3',
+    file: './music/03 트랙 3.flac'
+  },
+  {
+    title: '트랙 4',
+    file: './music/04 트랙 4.flac'
+  },
+  {
+    title: '트랙 5',
+    file: './music/05 트랙 5.flac'
+  },
+  {
+    title: '트랙 6',
+    file: './music/06 트랙 6.flac'
+  },
+  {
+    title: '트랙 7',
+    file: './music/07 트랙 7.flac'
+  },
+  {
+    title: '트랙 8',
+    file: './music/08 트랙 8.flac'
+  },
+  {
+    title: '트랙 9',
+    file: './music/09 트랙 9.flac'
+  },
+  {
+    title: '트랙 10',
+    file: './music/10 트랙 10.flac'
   }
 ];
 
