@@ -1,70 +1,49 @@
-// songs 배열에서 제목, 아티스트, 파일 경로, 커버 이미지를 관리합니다.
-const songs = [
+// albums 배열에서 앨범과 곡 정보를 관리합니다.
+const albums = [
   {
-    title: '난 아니에요',
+    title: 'TEAM BABY',
     artist: '검정치마',
-    file: './music/01 트랙 1.flac',
-    cover: './covers/team-baby.webp'
+    cover: './covers/team-baby.webp',
+    songs: [
+      { title: '난 아니에요', file: './music/01 트랙 1.flac' },
+      { title: 'Big Love', file: './music/02 트랙 2.flac' },
+      { title: 'Diamond', file: './music/03 트랙 3.flac' },
+      { title: 'Love is All', file: './music/04 트랙 4.flac' },
+      { title: '내 고향 서울엔', file: './music/05 트랙 5.flac' },
+      { title: '폭죽과 풍선들', file: './music/06 트랙 6.flac' },
+      { title: '한시 오분 (1:05)', file: './music/07 트랙 7.flac' },
+      { title: '나랑 아니면', file: './music/08 트랙 8.flac' },
+      { title: '혜야', file: './music/09 트랙 9.flac' },
+      { title: 'EVERYTHING', file: './music/EVERYTHING.flac' },
+      { title: '걱정하지마', file: './music/걱정하지마.flac' }
+    ]
   },
   {
-    title: 'Big Love',
+    title: "My Feet Don't Touch The Ground",
     artist: '검정치마',
-    file: './music/02 트랙 2.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: 'Diamond',
-    artist: '검정치마',
-    file: './music/03 트랙 3.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: 'Love is All',
-    artist: '검정치마',
-    file: './music/04 트랙 4.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: '내 고향 서울엔',
-    artist: '검정치마',
-    file: './music/05 트랙 5.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: '폭죽과 풍선들',
-    artist: '검정치마',
-    file: './music/06 트랙 6.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: '한시 오분 (1:05)',
-    artist: '검정치마',
-    file: './music/07 트랙 7.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: '나랑 아니면',
-    artist: '검정치마',
-    file: './music/08 트랙 8.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: '혜야',
-    artist: '검정치마',
-    file: './music/09 트랙 9.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: 'EVERYTHING',
-    artist: '검정치마',
-    file: './music/EVERYTHING.flac',
-    cover: './covers/team-baby.webp'
-  },
-  {
-    title: '걱정하지마',
-    artist: '검정치마',
-    file: './music/걱정하지마.flac',
-    cover: './covers/team-baby.webp'
+    cover: './covers/blackskirt.webp',
+    songs: [
+      { title: '트랙 1', file: './music/my-feet-dont-touch-the-ground/01 트랙 1.flac' },
+      { title: '트랙 2', file: './music/my-feet-dont-touch-the-ground/02 트랙 2.flac' },
+      { title: '트랙 3', file: './music/my-feet-dont-touch-the-ground/03 트랙 3.flac' },
+      { title: '트랙 4', file: './music/my-feet-dont-touch-the-ground/04 트랙 4.flac' },
+      { title: '트랙 5', file: './music/my-feet-dont-touch-the-ground/05 트랙 5.flac' },
+      { title: '트랙 6', file: './music/my-feet-dont-touch-the-ground/06 트랙 6.flac' },
+      { title: '트랙 7', file: './music/my-feet-dont-touch-the-ground/07 트랙 7.flac' },
+      { title: '트랙 8', file: './music/my-feet-dont-touch-the-ground/08 트랙 8.flac' },
+      { title: '트랙 9', file: './music/my-feet-dont-touch-the-ground/09 트랙 9.flac' },
+      { title: '트랙 10', file: './music/my-feet-dont-touch-the-ground/10 트랙 10.flac' },
+      { title: '트랙 11', file: './music/my-feet-dont-touch-the-ground/11 트랙 11.flac' },
+      { title: '트랙 12', file: './music/my-feet-dont-touch-the-ground/12 트랙 12.flac' },
+      { title: '트랙 13', file: './music/my-feet-dont-touch-the-ground/13 트랙 13.flac' },
+      { title: '트랙 14', file: './music/my-feet-dont-touch-the-ground/14 트랙 14.flac' },
+      { title: '트랙 15', file: './music/my-feet-dont-touch-the-ground/15 트랙 15.flac' },
+      { title: '트랙 16', file: './music/my-feet-dont-touch-the-ground/16 트랙 16.flac' },
+      { title: '트랙 17', file: './music/my-feet-dont-touch-the-ground/17 트랙 17.flac' },
+      { title: '트랙 18', file: './music/my-feet-dont-touch-the-ground/18 트랙 18.flac' },
+      { title: '트랙 19', file: './music/my-feet-dont-touch-the-ground/19 트랙 19.flac' },
+      { title: '트랙 20', file: './music/my-feet-dont-touch-the-ground/20 트랙 20.flac' }
+    ]
   }
 ];
 
@@ -80,9 +59,11 @@ const progressBar = document.getElementById('progress-bar');
 const currentTimeText = document.getElementById('current-time');
 const durationText = document.getElementById('duration');
 const volumeSlider = document.getElementById('volume-slider');
+const albumList = document.getElementById('album-list');
 const playlist = document.getElementById('playlist');
 const songCount = document.getElementById('song-count');
 
+let currentAlbumIndex = 0;
 let currentIndex = 0;
 let isSeeking = false;
 let repeatMode = 'off';
@@ -92,6 +73,14 @@ const repeatLabels = {
   all: '전체 반복',
   one: '한 곡 반복'
 };
+
+function getCurrentAlbum() {
+  return albums[currentAlbumIndex];
+}
+
+function getCurrentSongs() {
+  return getCurrentAlbum().songs;
+}
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds)) {
@@ -103,11 +92,17 @@ function formatTime(seconds) {
   return `${minutes}:${remainingSeconds}`;
 }
 
-function updateCover(song) {
-  coverArt.classList.toggle('has-cover', Boolean(song.cover));
-  coverArt.style.backgroundImage = song.cover
-    ? `url("${song.cover}")`
+function updateCover(album) {
+  coverArt.classList.toggle('has-cover', Boolean(album.cover));
+  coverArt.style.backgroundImage = album.cover
+    ? `url("${album.cover}")`
     : '';
+}
+
+function updateAlbumActiveState() {
+  document.querySelectorAll('.album-button').forEach((item, index) => {
+    item.classList.toggle('active', index === currentAlbumIndex);
+  });
 }
 
 function updatePlaylistActiveState() {
@@ -117,21 +112,33 @@ function updatePlaylistActiveState() {
 }
 
 function loadSong(index, shouldPlay = false) {
+  const album = getCurrentAlbum();
+  const songs = getCurrentSongs();
+
   currentIndex = (index + songs.length) % songs.length;
   const song = songs[currentIndex];
 
   audio.src = song.file;
   trackTitle.textContent = song.title;
-  trackArtist.textContent = song.artist;
+  trackArtist.textContent = album.artist;
   progressBar.value = 0;
   currentTimeText.textContent = '0:00';
   durationText.textContent = '0:00';
-  updateCover(song);
+  updateCover(album);
+  updateAlbumActiveState();
   updatePlaylistActiveState();
 
   if (shouldPlay) {
     audio.play();
   }
+}
+
+function setAlbum(index, shouldPlay = true) {
+  currentAlbumIndex = index;
+  currentIndex = 0;
+  pauseSong();
+  renderPlaylist();
+  loadSong(0, shouldPlay);
 }
 
 function playSong() {
@@ -178,6 +185,8 @@ function changeRepeatMode() {
 }
 
 function handleSongEnded() {
+  const songs = getCurrentSongs();
+
   if (repeatMode === 'one') {
     audio.currentTime = 0;
     playSong();
@@ -216,9 +225,40 @@ function seekToProgress() {
   currentTimeText.textContent = formatTime(audio.currentTime);
 }
 
+function renderAlbums() {
+  albumList.innerHTML = '';
+
+  albums.forEach((album, index) => {
+    const item = document.createElement('button');
+    item.className = 'album-button';
+    item.type = 'button';
+
+    item.innerHTML = `
+      <span class="album-thumb" style="background-image: url('${album.cover}')"></span>
+      <span>
+        <span class="album-name">${album.title}</span>
+        <span class="album-meta">${album.artist} · ${album.songs.length} songs</span>
+      </span>
+    `;
+
+    item.addEventListener('click', () => {
+      setAlbum(index);
+    });
+
+    albumList.appendChild(item);
+  });
+
+  updateAlbumActiveState();
+}
+
 function renderPlaylist() {
+  const album = getCurrentAlbum();
+  const songs = getCurrentSongs();
+
+  playlist.innerHTML = '';
+
   if (songs.length === 0) {
-    playlist.innerHTML = '<p class="empty-message">songs 배열에 노래를 추가해 주세요.</p>';
+    playlist.innerHTML = '<p class="empty-message">앨범에 노래를 추가해 주세요.</p>';
     songCount.textContent = '0 songs';
     return;
   }
@@ -234,7 +274,7 @@ function renderPlaylist() {
       <span class="track-number">${index + 1}</span>
       <span>
         <span class="playlist-title">${song.title}</span>
-        <span class="playlist-artist">${song.artist}</span>
+        <span class="playlist-artist">${album.artist}</span>
       </span>
       <span class="track-length">--:--</span>
     `;
@@ -245,6 +285,8 @@ function renderPlaylist() {
 
     playlist.appendChild(item);
   });
+
+  updatePlaylistActiveState();
 }
 
 playButton.addEventListener('click', togglePlay);
@@ -284,5 +326,6 @@ volumeSlider.addEventListener('input', () => {
 
 audio.volume = volumeSlider.value;
 updateRepeatButton();
+renderAlbums();
 renderPlaylist();
 loadSong(0);

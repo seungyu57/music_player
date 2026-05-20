@@ -14,20 +14,31 @@ my-music-player/
 ├── js/
 │   └── player.js
 ├── covers/
-│   └── team-baby.webp
+│   ├── team-baby.webp
+│   └── blackskirt.webp
 ├── music/
 │   ├── 01 트랙 1.flac
 │   ├── 02 트랙 2.flac
 │   ├── ...
 │   ├── EVERYTHING.flac
-│   └── 걱정하지마.flac
+│   ├── 걱정하지마.flac
+│   └── my-feet-dont-touch-the-ground/
+│       ├── 01 트랙 1.flac
+│       ├── 02 트랙 2.flac
+│       └── ...
 └── README.md
 ```
 
-현재 플레이리스트는 총 11곡이며, 마지막 원본 트랙은 앞부분 `00:00`부터 `04:54`까지 잘라 `EVERYTHING.flac`로 사용하고, `00:11:09`부터 끝까지 자른 구간은 `걱정하지마.flac`로 사용합니다.
+현재 플레이어는 두 앨범으로 나뉩니다.
+
+- `TEAM BABY`: 기존 11곡, 커버 `covers/team-baby.webp`
+- `My Feet Don't Touch The Ground`: 새 20곡, 커버 `covers/blackskirt.webp`
+
+`TEAM BABY`의 마지막 원본 트랙은 앞부분 `00:00`부터 `04:54`까지 잘라 `EVERYTHING.flac`로 사용하고, `00:11:09`부터 끝까지 자른 구간은 `걱정하지마.flac`로 사용합니다.
 
 ## 플레이어 기능
 
+- 앨범 목록에서 앨범을 선택해 플레이리스트를 전환할 수 있습니다.
 - 재생/일시정지, 이전 곡, 다음 곡 버튼을 사용할 수 있습니다.
 - 진행 바를 클릭하거나 드래그해서 원하는 위치로 이동할 수 있습니다.
 - 볼륨 슬라이더로 음량을 조절할 수 있습니다.
@@ -36,21 +47,18 @@ my-music-player/
 ## 노래 추가 방법
 
 1. `music` 폴더에 mp3 또는 flac 파일을 넣습니다.
-2. `js/player.js` 파일의 `songs` 배열에 곡 정보를 추가합니다.
+2. `js/player.js` 파일의 `albums` 배열에 앨범과 곡 정보를 추가합니다.
 
 ```javascript
-const songs = [
+const albums = [
   {
-    title: "Song One",
+    title: "Album Title",
     artist: "검정치마",
-    file: "./music/song1.mp3",
-    cover: "./covers/team-baby.webp"
-  },
-  {
-    title: "Song Two",
-    artist: "검정치마",
-    file: "./music/song2.mp3",
-    cover: "./covers/team-baby.webp"
+    cover: "./covers/album-cover.webp",
+    songs: [
+      { title: "Song One", file: "./music/song1.mp3" },
+      { title: "Song Two", file: "./music/song2.mp3" }
+    ]
   }
 ];
 ```
@@ -73,10 +81,12 @@ my-music-player/
 
 ```javascript
 {
-  title: "Song One",
+  title: "Album Title",
   artist: "검정치마",
-  file: "./music/song1.mp3",
-  cover: "./covers/album-cover.jpg"
+  cover: "./covers/album-cover.jpg",
+  songs: [
+    { title: "Song One", file: "./music/song1.mp3" }
+  ]
 }
 ```
 

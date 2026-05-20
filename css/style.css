@@ -255,10 +255,63 @@ h1 {
 
 .playlist-panel {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   gap: 18px;
   padding: 30px;
   background: rgba(255, 255, 255, 0.028);
+}
+
+.album-section {
+  display: grid;
+  gap: 10px;
+}
+
+.album-list {
+  display: grid;
+  gap: 10px;
+}
+
+.album-button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.035);
+  text-align: left;
+}
+
+.album-button:hover,
+.album-button.active {
+  border-color: rgba(87, 230, 181, 0.42);
+  background: rgba(87, 230, 181, 0.1);
+}
+
+.album-thumb {
+  aspect-ratio: 1;
+  width: 52px;
+  border-radius: 12px;
+  background-position: center;
+  background-size: cover;
+}
+
+.album-name {
+  display: block;
+  overflow: hidden;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.album-meta {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.84rem;
 }
 
 .playlist-header {
