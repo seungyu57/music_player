@@ -99,6 +99,138 @@ function updateCover(album) {
     : '';
 }
 
+function getArtworkType(src) {
+  const normalizedSrc = src.toLowerCase();
+
+  if (normalizedSrc.endsWith('.png')) {
+    return 'image/png';
+  }
+
+  if (normalizedSrc.endsWith('.jpg') || normalizedSrc.endsWith('.jpeg')) {
+    return 'image/jpeg';
+  }
+
+  if (normalizedSrc.endsWith('.webp')) {
+    return 'image/webp';
+  }
+
+  return 'image/*';
+}
+
+function getMediaArtwork(album) {
+  if (!album.cover) {
+    return [];
+  }
+
+  return [
+    {
+      src: album.cover,
+      sizes: '512x512',
+      type: getArtworkType(album.cover)
+    }
+  ];
+}
+
+function updateMediaSessionMetadata(album, song) {
+  if (!('mediaSession' in navigator) || !window.MediaMetadata) {
+    return;
+  }
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: song.title,
+    artist: album.artist,
+    album: album.title,
+    artwork: getMediaArtwork(album)
+  });
+}
+
+function updateMediaSessionPlaybackState(state) {
+  if (!('mediaSession' in navigator)) {
+    return;
+  }
+
+  navigator.mediaSession.playbackState = state;
+}
+
+function updateMediaSessionPositionState() {
+  if (!('mediaSession' in navigator) || !('setPositionState' in navigator.mediaSession)) {
+    return;
+  }
+
+  if (!Number.isFinite(audio.duration) || audio.duration <= 0) {
+    return;
+  }
+
+  const position = Math.min(Math.max(audio.currentTime, 0), audio.duration);
+
+  try {
+    navigator.mediaSession.setPositionState({
+      duration: audio.duration,
+      playbackRate: audio.playbackRate || 1,
+      position
+    });
+  } catch (error) {
+    // 일부 모바일 브라우저는 position state 값을 엄격하게 검사합니다.
+  }
+}
+
+function setMediaSessionActionHandler(action, handler) {
+  if (!('mediaSession' in navigator)) {
+    return;
+  }
+
+  try {
+    navigator.mediaSession.setActionHandler(action, handler);
+  } catch (error) {
+    // 브라우저별로 지원하지 않는 액션은 조용히 건너뜁니다.
+  }
+}
+
+function setupMediaSessionControls() {
+  if (!('mediaSession' in navigator)) {
+    return;
+  }
+
+  setMediaSessionActionHandler('play', playSong);
+  setMediaSessionActionHandler('pause', pauseSong);
+  setMediaSessionActionHandler('previoustrack', playPreviousSong);
+  setMediaSessionActionHandler('nexttrack', playNextSong);
+
+  setMediaSessionActionHandler('stop', () => {
+    pauseSong();
+    audio.currentTime = 0;
+    updateMediaSessionPlaybackState('none');
+    updateMediaSessionPositionState();
+  });
+
+  setMediaSessionActionHandler('seekbackward', (details) => {
+    const seekOffset = details.seekOffset || 10;
+    audio.currentTime = Math.max(audio.currentTime - seekOffset, 0);
+    updateMediaSessionPositionState();
+  });
+
+  setMediaSessionActionHandler('seekforward', (details) => {
+    const seekOffset = details.seekOffset || 10;
+    const duration = Number.isFinite(audio.duration) ? audio.duration : audio.currentTime + seekOffset;
+    audio.currentTime = Math.min(audio.currentTime + seekOffset, duration);
+    updateMediaSessionPositionState();
+  });
+
+  setMediaSessionActionHandler('seekto', (details) => {
+    if (!Number.isFinite(details.seekTime)) {
+      return;
+    }
+
+    if (details.fastSeek && 'fastSeek' in audio) {
+      audio.fastSeek(details.seekTime);
+    } else {
+      audio.currentTime = details.seekTime;
+    }
+
+    updateMediaSessionPositionState();
+  });
+}
+
 function updateAlbumActiveState() {
   document.querySelectorAll('.album-card').forEach((item, index) => {
     item.classList.toggle('active', index === currentAlbumIndex);
@@ -131,12 +263,13 @@ function loadSong(index, shouldPlay = false) {
   currentTimeText.textContent = '0:00';
   durationText.textContent = '0:00';
   updateCover(album);
+  updateMediaSessionMetadata(album, song);
   updateAlbumActiveState();
   updatePlaylistActiveState();
   songCount.textContent = `${songs.length} songs`;
 
   if (shouldPlay) {
-    audio.play();
+    playSong();
   }
 }
 
@@ -152,7 +285,13 @@ function setAlbum(index) {
 }
 
 function playSong() {
-  audio.play();
+  const playPromise = audio.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      updateMediaSessionPlaybackState('paused');
+    });
+  }
 }
 
 function pauseSong() {
@@ -216,6 +355,7 @@ function handleSongEnded() {
   playButton.textContent = '▶';
   playButton.setAttribute('aria-label', '재생');
   coverStage.classList.remove('is-playing');
+  updateMediaSessionPlaybackState('paused');
 }
 
 function updateProgress() {
@@ -225,6 +365,7 @@ function updateProgress() {
 
   progressBar.value = (audio.currentTime / audio.duration) * 100;
   currentTimeText.textContent = formatTime(audio.currentTime);
+  updateMediaSessionPositionState();
 }
 
 function seekToProgress() {
@@ -234,6 +375,7 @@ function seekToProgress() {
 
   audio.currentTime = (progressBar.value / 100) * audio.duration;
   currentTimeText.textContent = formatTime(audio.currentTime);
+  updateMediaSessionPositionState();
 }
 
 function renderAlbums() {
@@ -306,16 +448,21 @@ audio.addEventListener('play', () => {
   playButton.textContent = '⏸';
   playButton.setAttribute('aria-label', '일시정지');
   coverStage.classList.add('is-playing');
+  updateMediaSessionPlaybackState('playing');
+  updateMediaSessionPositionState();
 });
 
 audio.addEventListener('pause', () => {
   playButton.textContent = '▶';
   playButton.setAttribute('aria-label', '재생');
   coverStage.classList.remove('is-playing');
+  updateMediaSessionPlaybackState('paused');
+  updateMediaSessionPositionState();
 });
 
 audio.addEventListener('loadedmetadata', () => {
   durationText.textContent = formatTime(audio.duration);
+  updateMediaSessionPositionState();
 });
 
 audio.addEventListener('timeupdate', updateProgress);
@@ -335,6 +482,7 @@ volumeSlider.addEventListener('input', () => {
 });
 
 audio.volume = volumeSlider.value;
+setupMediaSessionControls();
 updateRepeatButton();
 renderAlbums();
 loadSong(0);
