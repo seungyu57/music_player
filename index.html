@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Music Player</title>
-  <link rel="stylesheet" href="./css/style.css?v=6">
+  <link rel="stylesheet" href="./css/style.css?v=7">
 </head>
 <body>
   <main class="music-app">
@@ -19,8 +19,9 @@
 
       <section class="player-layout">
         <div class="now-playing-panel">
-          <div id="cover-art" class="cover-art" aria-label="앨범 커버">
-            <div class="cover-disc"></div>
+          <div id="cover-stage" class="cover-stage">
+            <div id="cover-disc" class="cover-disc" aria-hidden="true"></div>
+            <div id="cover-art" class="cover-art" aria-label="앨범 커버"></div>
           </div>
 
           <div class="track-info">
@@ -52,25 +53,23 @@
         </div>
 
         <aside class="playlist-panel" aria-labelledby="playlist-title">
+          <div class="playlist-header">
+            <div>
+              <p class="eyebrow">Albums</p>
+              <h2 id="playlist-title">앨범 라이브러리</h2>
+            </div>
+            <span id="song-count" class="song-count">0 songs</span>
+          </div>
+
           <div class="album-section">
             <p class="eyebrow">Albums</p>
             <div id="album-list" class="album-list"></div>
           </div>
-
-          <div class="playlist-header">
-            <div>
-              <p class="eyebrow">Queue</p>
-              <h2 id="playlist-title">오늘의 플레이리스트</h2>
-            </div>
-            <span id="song-count" class="song-count">0 songs</span>
-          </div>
-          <!-- player.js가 songs 배열을 기반으로 플레이리스트를 자동 생성합니다. -->
-          <div id="playlist" class="playlist"></div>
         </aside>
       </section>
     </section>
   </main>
 
-  <script src="./js/player.js?v=6"></script>
+  <script src="./js/player.js?v=7"></script>
 </body>
 </html>

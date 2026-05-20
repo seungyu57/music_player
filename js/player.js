@@ -48,6 +48,7 @@ const albums = [
 ];
 
 const audio = new Audio();
+const coverStage = document.getElementById('cover-stage');
 const coverArt = document.getElementById('cover-art');
 const trackTitle = document.getElementById('track-title');
 const trackArtist = document.getElementById('track-artist');
@@ -60,7 +61,6 @@ const currentTimeText = document.getElementById('current-time');
 const durationText = document.getElementById('duration');
 const volumeSlider = document.getElementById('volume-slider');
 const albumList = document.getElementById('album-list');
-const playlist = document.getElementById('playlist');
 const songCount = document.getElementById('song-count');
 
 let currentAlbumIndex = 0;
@@ -100,14 +100,20 @@ function updateCover(album) {
 }
 
 function updateAlbumActiveState() {
-  document.querySelectorAll('.album-button').forEach((item, index) => {
+  document.querySelectorAll('.album-card').forEach((item, index) => {
     item.classList.toggle('active', index === currentAlbumIndex);
+    item.classList.toggle('open', index === currentAlbumIndex);
   });
 }
 
 function updatePlaylistActiveState() {
-  document.querySelectorAll('.playlist-item').forEach((item, index) => {
-    item.classList.toggle('active', index === currentIndex);
+  document.querySelectorAll('.playlist-item').forEach((item) => {
+    const albumIndex = Number(item.dataset.albumIndex);
+    const trackIndex = Number(item.dataset.trackIndex);
+    item.classList.toggle(
+      'active',
+      albumIndex === currentAlbumIndex && trackIndex === currentIndex
+    );
   });
 }
 
@@ -127,18 +133,22 @@ function loadSong(index, shouldPlay = false) {
   updateCover(album);
   updateAlbumActiveState();
   updatePlaylistActiveState();
+  songCount.textContent = `${songs.length} songs`;
 
   if (shouldPlay) {
     audio.play();
   }
 }
 
-function setAlbum(index, shouldPlay = true) {
+function setAlbum(index) {
+  if (index === currentAlbumIndex) {
+    return;
+  }
+
+  pauseSong();
   currentAlbumIndex = index;
   currentIndex = 0;
-  pauseSong();
-  renderPlaylist();
-  loadSong(0, shouldPlay);
+  loadSong(0);
 }
 
 function playSong() {
@@ -205,6 +215,7 @@ function handleSongEnded() {
 
   playButton.textContent = '▶';
   playButton.setAttribute('aria-label', '재생');
+  coverStage.classList.remove('is-playing');
 }
 
 function updateProgress() {
@@ -228,12 +239,14 @@ function seekToProgress() {
 function renderAlbums() {
   albumList.innerHTML = '';
 
-  albums.forEach((album, index) => {
-    const item = document.createElement('button');
-    item.className = 'album-button';
-    item.type = 'button';
+  albums.forEach((album, albumIndex) => {
+    const card = document.createElement('article');
+    card.className = 'album-card';
 
-    item.innerHTML = `
+    const button = document.createElement('button');
+    button.className = 'album-button';
+    button.type = 'button';
+    button.innerHTML = `
       <span class="album-thumb" style="background-image: url('${album.cover}')"></span>
       <span>
         <span class="album-name">${album.title}</span>
@@ -241,51 +254,46 @@ function renderAlbums() {
       </span>
     `;
 
-    item.addEventListener('click', () => {
-      setAlbum(index);
+    button.addEventListener('click', () => {
+      setAlbum(albumIndex);
     });
 
-    albumList.appendChild(item);
+    const tracks = document.createElement('div');
+    tracks.className = 'album-tracks';
+
+    const tracksInner = document.createElement('div');
+    tracksInner.className = 'album-tracks-inner';
+
+    album.songs.forEach((song, trackIndex) => {
+      const item = document.createElement('button');
+      item.className = 'playlist-item';
+      item.type = 'button';
+      item.dataset.albumIndex = albumIndex;
+      item.dataset.trackIndex = trackIndex;
+
+      item.innerHTML = `
+        <span class="track-number">${trackIndex + 1}</span>
+        <span>
+          <span class="playlist-title">${song.title}</span>
+          <span class="playlist-artist">${album.artist}</span>
+        </span>
+        <span class="track-length">--:--</span>
+      `;
+
+      item.addEventListener('click', () => {
+        currentAlbumIndex = albumIndex;
+        loadSong(trackIndex, true);
+      });
+
+      tracksInner.appendChild(item);
+    });
+
+    tracks.appendChild(tracksInner);
+    card.append(button, tracks);
+    albumList.appendChild(card);
   });
 
   updateAlbumActiveState();
-}
-
-function renderPlaylist() {
-  const album = getCurrentAlbum();
-  const songs = getCurrentSongs();
-
-  playlist.innerHTML = '';
-
-  if (songs.length === 0) {
-    playlist.innerHTML = '<p class="empty-message">앨범에 노래를 추가해 주세요.</p>';
-    songCount.textContent = '0 songs';
-    return;
-  }
-
-  songCount.textContent = `${songs.length} songs`;
-
-  songs.forEach((song, index) => {
-    const item = document.createElement('button');
-    item.className = 'playlist-item';
-    item.type = 'button';
-
-    item.innerHTML = `
-      <span class="track-number">${index + 1}</span>
-      <span>
-        <span class="playlist-title">${song.title}</span>
-        <span class="playlist-artist">${album.artist}</span>
-      </span>
-      <span class="track-length">--:--</span>
-    `;
-
-    item.addEventListener('click', () => {
-      loadSong(index, true);
-    });
-
-    playlist.appendChild(item);
-  });
-
   updatePlaylistActiveState();
 }
 
@@ -297,11 +305,13 @@ repeatButton.addEventListener('click', changeRepeatMode);
 audio.addEventListener('play', () => {
   playButton.textContent = '⏸';
   playButton.setAttribute('aria-label', '일시정지');
+  coverStage.classList.add('is-playing');
 });
 
 audio.addEventListener('pause', () => {
   playButton.textContent = '▶';
   playButton.setAttribute('aria-label', '재생');
+  coverStage.classList.remove('is-playing');
 });
 
 audio.addEventListener('loadedmetadata', () => {
@@ -327,5 +337,4 @@ volumeSlider.addEventListener('input', () => {
 audio.volume = volumeSlider.value;
 updateRepeatButton();
 renderAlbums();
-renderPlaylist();
 loadSong(0);
